@@ -18,5 +18,17 @@ namespace FuelManagerGrpc.Services
                 Message = "Hello " + request.Name
             });
         }
+
+        public override Task<FuelReply> FuelCalculator(FuelRequest request, ServerCallContext context)
+        {
+            double pct = request.Etanol / request.Gasolina;
+            string message = pct < 0.7 ? "Etanol" : "Gasolina";
+
+            return Task.FromResult(new FuelReply
+            {
+                Pct = pct,
+                Message = message
+            });
+        }
     }
 }
